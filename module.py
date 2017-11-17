@@ -1,7 +1,7 @@
 from __future__ import division
 import tensorflow as tf
-from ops import *
-from utils import *
+from ops import lrelu, conv2d, instance_norm, deconv2d
+#from utils import *
 
 
 def discriminator(image, options, reuse=False, name="discriminator"):
@@ -13,7 +13,7 @@ def discriminator(image, options, reuse=False, name="discriminator"):
         else:
             assert tf.get_variable_scope().reuse is False
 
-        h0 = lrelu(conv2d(image, options.df_dim, name='d_h0_conv'))
+        h0 = lrelu(conv2d(image, options.df_dim, name='d_h0_conv')) #df_dim = 64
         # h0 is (128 x 128 x self.df_dim)
         h1 = lrelu(instance_norm(conv2d(h0, options.df_dim*2, name='d_h1_conv'), 'd_bn1'))
         # h1 is (64 x 64 x self.df_dim*2)
