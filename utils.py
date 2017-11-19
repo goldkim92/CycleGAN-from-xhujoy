@@ -7,6 +7,7 @@ import pprint
 import scipy.misc
 import numpy as np
 import copy
+import os
 
 pp = pprint.PrettyPrinter()
 
@@ -75,8 +76,8 @@ def load_train_data(image_path, load_size=286, fine_size=256, is_testing=False):
 def get_image(image_path, image_size, is_crop=True, resize_w=64, is_grayscale = False):
     return transform(imread(image_path, is_grayscale), image_size, is_crop, resize_w)
 
-def save_images(images, size, image_path):
-    return imsave(inverse_transform(images), size, image_path)
+def save_images(images, size, image_path,dir_list=None):
+    return imsave(inverse_transform(images), size, image_path, dir_list)
 
 def imread(path, is_grayscale = False):
     if (is_grayscale):
@@ -97,8 +98,15 @@ def merge(images, size):
 
     return img
 
-def imsave(images, size, path):
-    return scipy.misc.imsave(path, merge(images, size))
+def imsave(images, size, path, dir_list):
+    if dir_list is None :
+        return scipy.misc.imsave(path, merge(images, size))
+    else :
+        for i,dir_name in enumerate(dir_list) :
+            path = os.path.join(dir_name,path)
+            image = images[i,:,:,:]
+            scipy.misc.imsave(path,merge(image,size))
+            
 
 def center_crop(x, crop_h, crop_w,
                 resize_h=64, resize_w=64):

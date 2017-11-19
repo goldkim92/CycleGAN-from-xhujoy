@@ -246,10 +246,14 @@ class cyclegan(object):
             [self.fake_A, self.fake_B],
             feed_dict={self.real_data: sample_images}
         )
+#        utils.save_images(fake_A, [self.batch_size, 1],
+#                    './{}/A_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx))
+#        utils.save_images(fake_B, [self.batch_size, 1],
+#                    './{}/B_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx))
         utils.save_images(fake_A, [self.batch_size, 1],
-                    './{}/A_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx))
+                    './{}/A_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx),fake_A_dir)
         utils.save_images(fake_B, [self.batch_size, 1],
-                    './{}/B_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx))
+                    './{}/B_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx),fake_B_dir)
 
     def test(self, args):
         """Test cyclegan"""
