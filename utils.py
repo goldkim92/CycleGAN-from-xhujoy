@@ -81,7 +81,7 @@ def save_images(images, size, image_path):
 
 def save_images_multiple(images, size, sample_dir, fake_dirs, epoch):
     for i,dir_name in enumerate(fake_dirs) :
-        image_path = os.path.join(sample_dir,dir_name,'{:03d}'.format(epoch))
+        image_path = os.path.join(sample_dir,dir_name,'{:03d}.jpg'.format(epoch))
         image = np.array([images[i,:,:,:]])
         imsave(inverse_transform(image), size, image_path)
 
