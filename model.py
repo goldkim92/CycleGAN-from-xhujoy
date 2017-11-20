@@ -5,7 +5,7 @@ from glob import glob
 import tensorflow as tf
 import numpy as np
 from collections import namedtuple
-import tqdm
+from tqdm import tqdm
 
 #from . import module
 #from . import utils
@@ -227,13 +227,13 @@ class cyclegan(object):
         bs = 120 # batch size
         step = 6
 #        extract = np.arange(0,bs,step)
-        fake_A_dir = [dataB[n].split('/')[-1].split('.')[0] for n in range(0,bs,step)]
-        fake_B_dir = [dataA[n].split('/')[-1].split('.')[0] for n in range(0,bs,step)]
+        fake_A_dirs = [dataB[n].split('/')[-1].split('.')[0] for n in range(0,bs,step)]
+        fake_B_dirs = [dataA[n].split('/')[-1].split('.')[0] for n in range(0,bs,step)]
         if epoch == 0:
             for i in range(20):
                 try: 
-                    os.makedirs('./{}/fake_A/{}'.format(self.dataset_dir,fake_A_dir[i]))
-                    os.makedirs('./{}/fake_B/{}'.format(self.dataset_dir,fake_B_dir[i]))
+                    os.makedirs('./{}/fake_A/{}'.format(self.dataset_dir,fake_A_dirs[i]))
+                    os.makedirs('./{}/fake_B/{}'.format(self.dataset_dir,fake_B_dirs[i]))
                 except: pass
 #        np.random.shuffle(dataA)
 #        np.random.shuffle(dataB)
@@ -250,10 +250,8 @@ class cyclegan(object):
 #                    './{}/A_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx))
 #        utils.save_images(fake_B, [self.batch_size, 1],
 #                    './{}/B_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx))
-        utils.save_images(fake_A, [self.batch_size, 1],
-                    './{}/A_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx),fake_A_dir)
-        utils.save_images(fake_B, [self.batch_size, 1],
-                    './{}/B_{:02d}_{:04d}.jpg'.format(sample_dir, epoch, idx),fake_B_dir)
+        utils.save_images_multiple(fake_A, [self.batch_size, 1],os.path.join('.',sample_dir,'fake_A'), fake_A_dirs, epoch)
+        utils.save_images_multiple(fake_B, [self.batch_size, 1],os.path.join('.',sample_dir,'fake_B'), fake_B_dirs, epoch)
 
     def test(self, args):
         """Test cyclegan"""
